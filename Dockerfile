@@ -1,13 +1,7 @@
-FROM python:3.9.0-slim
-RUN mkdir /app
-
-COPY requirements.txt /app/
-
-
-RUN python -m pip install -r /app/requirements.txt
-
-COPY manage.py /app/
-
-WORKDIR /app
-
-ENTRYPOINT ["python", "manage.py"]
+FROM python:3
+ENV PYTHONUNBUFFERED 1
+RUN mkdir /code
+WORKDIR /code
+COPY requirements.txt /code/
+RUN pip install -r requirements.txt
+COPY . /code/

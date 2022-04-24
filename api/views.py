@@ -1,5 +1,8 @@
+from requests import Response
 from rest_framework import generics, permissions
 from django.shortcuts import render
+from rest_framework.views import APIView
+
 from . import serializers
 from django.contrib.auth.models import User
 from .models import Article, Comment
@@ -32,7 +35,7 @@ class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class CommentList(generics.ListCreateAPIView):
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.root_nodes()
     serializer_class = serializers.CommentSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -45,3 +48,6 @@ class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.CommentSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly,
                           IsAuthorOrReadOnly]
+
+
+

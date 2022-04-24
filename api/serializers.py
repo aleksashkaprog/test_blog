@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from rest_framework_recursive.fields import RecursiveField
 from .models import Article, Comment
 
 
@@ -23,9 +24,10 @@ class ArticleSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.ReadOnlyField(source='author.username')
+    children = RecursiveField(many=True)
 
     class Meta:
         model = Comment
-        fields = ['id', 'text', 'article', 'reply_to', 'created_date', 'author']
+        fields = ['id', 'text', 'article', 'parent', 'created_date', 'author', 'children']
 
 
